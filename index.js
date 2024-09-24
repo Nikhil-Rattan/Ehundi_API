@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors"
 import { adminRouter } from "./Routes/AdminRoute.js";
+import { signupRouter  } from "./Routes/SignupRoute.js";
 
 const app = express()
 app.use(cors({
@@ -11,6 +12,7 @@ app.use(cors({
 
 app.use(express.json())
 app.use('/auth', adminRouter)
+app.use('/auth', signupRouter);
 
 app.listen(3001, () => {
     console.log("Server is running")
