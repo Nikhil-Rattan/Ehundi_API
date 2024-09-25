@@ -38,6 +38,75 @@ signupRouter.post('/signup', (req, res) => {
     });
 });
 
+// For get the list of registered user's
+signupRouter.get('/users', (req, res) => {
+    const getAllUsersQuery = "SELECT * FROM usersignup";
+    con.query(getAllUsersQuery, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching users' });
+        }
+        return res.status(200).json(result);
+    });
+});
+
+// To get a specific user by ID
+signupRouter.get('/users/:id', (req, res) => {
+    const userId = req.params.id;
+    const getUserByIdQuery = "SELECT * FROM usersignup WHERE userId = ?";
+    con.query(getUserByIdQuery, [userId], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching user' });
+        }
+        if (result.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        return res.status(200).json(result[0]);
+    });
+});
+
+// Update user information
+signupRouter.put('/users/:id', (req, res) => {
+    const userId = req.params.id;
+    const { fullName, email, phoneNumber, password } = req.body;
+
+    // Update only if fields are provided
+    const updateQuery = `
+        UPDATE usersignup 
+        SET fullName = COALESCE(?, fullName), 
+            email = COALESCE(?, email), 
+            phoneNumber = COALESCE(?, phoneNumber), 
+            password = COALESCE(?, password)
+        WHERE userId = ?`;
+
+        // Hash the password only if it's provided
+    const hashedPassword = password ? bcrypt.hashSync(password, 10) : undefined;
+    con.query(updateQuery, [fullName, email, phoneNumber, hashedPassword, userId], (err, result) => {
+        if (err) {
+            console.error("Database query error:", err);
+            return res.status(500).json({ error: 'Error updating user' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        return res.status(200).json({ success: 'User updated successfully' });
+    });
+});
+
+signupRouter.delete('/users/:id', (req, res) => {
+    const userId = req.params.id;
+
+    const deleteQuery = "DELETE FROM usersignup WHERE id = ?";
+    con.query(deleteQuery, [userId], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error deleting user' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        return res.status(200).json({ success: 'User deleted successfully' });
+    });
+});
+
 
 
 export { signupRouter };
