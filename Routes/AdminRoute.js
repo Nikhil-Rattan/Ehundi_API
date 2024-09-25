@@ -16,6 +16,7 @@ router.post('/admin-login', (req, res) => {
                     "heart",
                     { expiresIn: '1d' }
                 );
+                console.log("Generated JWT Token: ", token);
                 res.cookie('token', token)
                 return res.json({ loginStatus: true })
             }
