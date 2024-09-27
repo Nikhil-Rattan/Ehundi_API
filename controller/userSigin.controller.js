@@ -20,9 +20,9 @@ export const userSignin = async (req, res) => {
       }
   
       // Compare the entered password with the stored password (no bcrypt)
-      if (password !== user.password) {
-        return res.status(401).json({ message: 'Invalid email or password' });
-      }
+    //   if (password !== user.password) {
+    //     return res.status(401).json({ message: 'Invalid email or password' });
+    //   }
   
       // Create a JWT token
       const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1d' });
