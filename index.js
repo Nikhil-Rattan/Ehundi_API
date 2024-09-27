@@ -6,6 +6,7 @@ import { otpRouter } from "./Routes/OtpRouter.js";
 import signupRouter from "./Routes/signup.route.js";
 import signinRouter from "./Routes/userLogin.route.js";
 import userRouter from "./Routes/userProfile.route.js";
+import categoryRouter from "./Routes/category.route.js";
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use('/auth', otpRouter);
 app.use("/auth/user-Signup", signupRouter);
 app.use("/auth/user-Signin", signinRouter);
 app.use("/auth/user-Profile", userRouter);
+app.use("/api/categories", categoryRouter);
 
 
 mongoose.connect(DB_URI)
