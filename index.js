@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { adminRouter } from "./Routes/AdminRoute.js";
 import { otpRouter } from "./Routes/OtpRouter.js";
 import signupRouter from "./Routes/signup.route.js";
-import userLoginRouter from "./Routes/userLogin.route.js";
+import signinRouter from "./Routes/userLogin.route.js";
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -26,7 +26,7 @@ app.use(express.json());
 app.use('/auth', adminRouter);
 app.use('/auth', otpRouter);
 app.use("/auth/user-Signup", signupRouter);
-app.use('/api/user-Signin', userLoginRouter);
+app.use("/auth/user-Signin", signinRouter);
 
 
 mongoose.connect(DB_URI)
