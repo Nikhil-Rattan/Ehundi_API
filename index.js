@@ -5,6 +5,7 @@ import { adminRouter } from "./Routes/AdminRoute.js";
 import { otpRouter } from "./Routes/OtpRouter.js";
 import signupRouter from "./Routes/signup.route.js";
 import signinRouter from "./Routes/userLogin.route.js";
+import userRouter from "./Routes/userProfile.route.js";
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use('/auth', adminRouter);
 app.use('/auth', otpRouter);
 app.use("/auth/user-Signup", signupRouter);
 app.use("/auth/user-Signin", signinRouter);
+app.use("/auth/user-Profile", userRouter);
 
 
 mongoose.connect(DB_URI)
