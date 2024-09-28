@@ -12,8 +12,8 @@ const ccAvenueResponseSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
-    }
-});
+    },
+},{ timestamps: true });
 
 const CCavenueResponse = mongoose.model('ccAvenueResponse', ccAvenueResponseSchema);
 export default CCavenueResponse;
