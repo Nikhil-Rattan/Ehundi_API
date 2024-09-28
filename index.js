@@ -8,6 +8,7 @@ import signinRouter from "./Routes/userLogin.route.js";
 import userRouter from "./Routes/userProfile.route.js";
 import categoryRouter from "./Routes/category.route.js";
 import donationRouter from "./Routes/donation.route.js";
+import ccAvenueResponseURL from "./Routes/ccAvenue.route.js";
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.use("/auth/user-Signin", signinRouter);
 app.use("/auth/user-Profile", userRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/donations", donationRouter);
+app.use("/api/ccAvenue-response", ccAvenueResponseURL);
 
 
 mongoose.connect(DB_URI)
