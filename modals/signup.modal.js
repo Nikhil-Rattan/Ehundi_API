@@ -53,6 +53,8 @@ const SignupSchema = new mongoose.Schema(
     email: String,
     phoneNumber: String,
     password: String,
+    role: { type: String, required: true, default: 'user' },
+
   },
   {
     timestamps: true,

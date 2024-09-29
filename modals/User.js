@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    // Add other fields as per your requirements
+    role: { type: String, required: true, default: 'user' },
 });
 
 const User = mongoose.model('User', userSchema);
