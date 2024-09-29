@@ -13,7 +13,14 @@ const ccAvenueResponseSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-},{ timestamps: true });
+    status: {  // Add status to track payment success/failure
+        type: String,
+        default: "pending"
+    },
+    responseData: {  // Store the full response JSON
+        type: Object
+    }
+}, { timestamps: true });
 
-const CCavenueResponse = mongoose.model('ccAvenueResponse', ccAvenueResponseSchema);
+const CCavenueResponse = mongoose.model('CCavenueResponse', ccAvenueResponseSchema);
 export default CCavenueResponse;
