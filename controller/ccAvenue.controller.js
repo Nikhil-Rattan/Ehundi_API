@@ -149,6 +149,7 @@ export const postDonationResponse = async (req, res) => {
       transactionId,
       amount,
       status,
+      responseData: { transactionId, amount, status },
     });
 
     await donationEntry.save();

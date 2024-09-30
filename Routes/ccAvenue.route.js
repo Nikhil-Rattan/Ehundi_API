@@ -4,19 +4,23 @@ import {
   postDonationResponse,
 } from "../controller/ccAvenue.controller.js";
 
-const donationRouter = express.Router();
+const ccAvenueRouter = express.Router();
 
 // Route to handle donation entry creation
-donationRouter.post("/", createDonationEntry);
-donationRouter.post("/response", postDonationResponse);
+ccAvenueRouter.post("/", createDonationEntry);
+ccAvenueRouter.post("/response", postDonationResponse);
 
 // Success Page Endpoint
-donationRouter.get("/success", (req, res) => {
+ccAvenueRouter.get("/success", (req, res) => {
   res.send("Transaction Successful! Thank you for your donation.");
 });
 // Failed Page Endpoint
-donationRouter.get("/failed", (req, res) => {
+ccAvenueRouter.get("/failed", (req, res) => {
   res.send("Transaction Failed! Please try again.");
 });
 
-export default donationRouter;
+ccAvenueRouter.get("/", (req, res) => {
+  res.send("CC Avenue Response Base Endpoint");
+});
+
+export default ccAvenueRouter;
