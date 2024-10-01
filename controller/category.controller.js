@@ -23,13 +23,7 @@ export const createCategory = async (req, res) => {
 // Get all categories
 export const getAllCategories = async (req, res) => {
   try {
-    const categories = await Category.find().populate({
-      path: 'subcategories',
-      populate: {
-        path: 'parentCategory',
-        select: '_id name image description price',
-      },
-    });
+    const categories = await Category.find().populate("subcategories").populate("parentCategory");
     res.status(200).json(categories);
   } catch (error) {
     res.status(500).json({ message: "Error fetching categories", error });
@@ -41,13 +35,7 @@ export const getCategoryById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const category = await Category.findById(id).populate({
-      path: 'subcategories',
-      populate: {
-        path: 'parentCategory',
-        select: '_id name image description price',
-      },
-    });
+    const category = await Category.findById(id).populate("subcategories");
     if (!category) {
       return res.status(404).json({ message: "Category not found" });
     }
