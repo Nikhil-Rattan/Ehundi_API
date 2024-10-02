@@ -73,7 +73,7 @@ export const getUser = async (req, res) => {
 // Update user information
 export const updateUser = async (req, res) => {
   const userId = req.params.id;
-  const { fullName, email, phoneNumber, password } = req.body;
+  const { fullName, email, phoneNumber, password, role } = req.body;
 
   try {
     const updatedData = {};
@@ -81,6 +81,7 @@ export const updateUser = async (req, res) => {
     if (email) updatedData.email = email;
     if (phoneNumber) updatedData.phoneNumber = phoneNumber;
     if (password) updatedData.password = await bcrypt.hash(password, 10); // Hashing if password is updated
+    if (role) updatedData.role = role;
 
     const user = await Signup.findByIdAndUpdate(userId, updatedData, {
       new: true,
