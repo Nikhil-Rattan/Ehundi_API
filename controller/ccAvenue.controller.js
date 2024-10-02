@@ -76,12 +76,12 @@ export const createDonationEntry = async (req, res) => {
 // Handle donation response entry
 export const postDonationResponse = async (req, res) => {
   try {
-    const { returnUrl, email } = req.body; // Get the returnUrl from the request body
+    const { returnUrl, email, merchant_id } = req.body; // Get the returnUrl from the request body
 
-    if (!returnUrl || !email) {
+    if (!returnUrl || !email || merchant_id) {
       return res
         .status(400)
-        .json({ error: "Return URL and recipient email are required." });
+        .json({ error: "Return URL, Merchant ID, and recipient email are required." });
     }
 
     // Parse the URL and extract the transactionId, amount, and status
@@ -96,21 +96,22 @@ export const postDonationResponse = async (req, res) => {
         .json({ error: "Transaction ID, Amount, and Status are required." });
     }
 
+    if (status === "success") {
     // Save the response in the database
     const donationEntry = new CCavenueResponse({
       transactionId,
       amount,
       status,
-      responseData: { transactionId, amount, status },
+      merchantId: merchant_id,
+      responseData: { transactionId, amount, status, merchant_id },
     });
 
     await donationEntry.save();
 
     // Log the JSON response
-    console.log({ transactionId, amount, status });
+    console.log({ transactionId, amount, status, merchant_id });
 
     // Send email if the transaction is successful
-    if (status === "success") {
       await sendSuccessEmail(email, transactionId, amount);
     }
 
