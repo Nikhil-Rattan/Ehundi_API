@@ -79,6 +79,35 @@
 
 import CCavenueResponse from "../modals/ccAvenueResponse.model.js";
 import { URL } from "url";
+import nodemailer from "nodemailer";
+
+// Function to send email
+const sendSuccessEmail = async (recipientEmail, transactionId, amount) => {
+  try {
+    // Create a transporter (you need to replace with your email service configuration)
+    const transporter = nodemailer.createTransport({
+      service: "gmail", // or any other email service you use
+      auth: {
+        user: "your-email@gmail.com", // Replace with your email
+        pass: "your-email-password", // Replace with your email password or app-specific password
+      },
+    });
+
+    // Create the email content
+    const mailOptions = {
+      from: "your-email@gmail.com", // Sender address
+      to: recipientEmail, // Recipient's email
+      subject: "Donation Successful", // Email subject
+      text: `Thank you for your donation! Transaction ID: ${transactionId}, Amount: ${amount}`, // Email body
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully");
+  } catch (error) {
+    console.error("Error sending email:", error);
+  }
+};
 
 // Function to parse URL parameters
 const getParamsFromUrl = (url) => {
@@ -126,10 +155,12 @@ export const createDonationEntry = async (req, res) => {
 // Handle donation response entry
 export const postDonationResponse = async (req, res) => {
   try {
-    const { returnUrl } = req.body; // Get the returnUrl from the request body
+    const { returnUrl, email } = req.body; // Get the returnUrl from the request body
 
-    if (!returnUrl) {
-      return res.status(400).json({ error: "Return URL is required." });
+    if (!returnUrl || !email) {
+      return res
+        .status(400)
+        .json({ error: "Return URL and recipient email are required." });
     }
 
     // Parse the URL and extract the transactionId, amount, and status
@@ -156,6 +187,12 @@ export const postDonationResponse = async (req, res) => {
 
     // Log the JSON response
     console.log({ transactionId, amount, status });
+
+    // Send email if the transaction is successful
+    if (status === "success") {
+      await sendSuccessEmail(email, transactionId, amount);
+    }
+
     // After returning JSON, redirect based on the status
     if (status === "success") {
       return res.redirect("/success");
