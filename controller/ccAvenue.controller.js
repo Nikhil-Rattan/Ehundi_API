@@ -9,8 +9,8 @@ const sendSuccessEmail = async (recipientEmail, transactionId, amount) => {
     const transporter = nodemailer.createTransport({
       service: "gmail", // or any other email service you use
       auth: {
-        user: "", 
-        pass: "", 
+        user: "",
+        pass: "",
       },
     });
 
@@ -76,12 +76,12 @@ export const createDonationEntry = async (req, res) => {
 // Handle donation response entry
 export const postDonationResponse = async (req, res) => {
   try {
-    const { returnUrl, email, merchant_id } = req.body; // Get the returnUrl from the request body
+    const { returnUrl, email } = req.body; // Get the returnUrl from the request body
 
-    if (!returnUrl || !email || merchant_id) {
+    if (!returnUrl || !email) {
       return res
         .status(400)
-        .json({ error: "Return URL, Merchant ID, and recipient email are required." });
+        .json({ error: "Return URL and recipient email are required." });
     }
 
     // Parse the URL and extract the transactionId, amount, and status
@@ -89,34 +89,36 @@ export const postDonationResponse = async (req, res) => {
     const transactionId = parsedUrl.searchParams.post("transactionId");
     const amount = parsedUrl.searchParams.post("amount");
     const status = parsedUrl.searchParams.post("status");
+    const merchant_param1 = parsedUrl.searchParams.get("merchant_param1");
 
-    if (!transactionId || !amount || !status) {
+    if (!transactionId || !amount || !status || merchant_param1) {
       return res
         .status(400)
-        .json({ error: "Transaction ID, Amount, and Status are required." });
+        .json({
+          error:
+            "Transaction ID, Amount, and Status, and merchant_param1 are required.",
+        });
     }
 
     if (status === "success") {
-    // Save the response in the database
-    const donationEntry = new CCavenueResponse({
-      transactionId,
-      amount,
-      status,
-      merchantId: merchant_id,
-      responseData: { transactionId, amount, status, merchant_id },
-    });
+      // Save the response in the database
+      const donationEntry = new CCavenueResponse({
+        transactionId,
+        amount,
+        status,
+        merchantParam1: merchant_param1,
+        responseData: { transactionId, amount, status, merchant_param1 },
+      });
 
-    await donationEntry.save();
+      await donationEntry.save();
 
-    // Log the JSON response
-    console.log({ transactionId, amount, status, merchant_id });
+      // Log the JSON response
+      console.log({ transactionId, amount, status, merchant_param1 });
 
-    // Send email if the transaction is successful
+      // Send email if the transaction is successful
       await sendSuccessEmail(email, transactionId, amount);
-    }
 
-    // After returning JSON, redirect based on the status
-    if (status === "success") {
+      // After returning JSON, redirect based on the status
       return res.redirect("/success");
     } else {
       return res.redirect("/failed");
