@@ -40,7 +40,6 @@ export const userSignin = async (req, res) => {
       },
       token,
     });
-    //   return res.status(200).json({ message: 'Sign-in successful' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
