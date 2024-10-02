@@ -9,15 +9,15 @@ const newDonationSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      required: true,
+      // required: true,
     },
     gotra: {
       type: String,
-      required: true,
+      // required: true,
     },
     poojaDate: {
       type: Date,
-      required: true,
+      // required: true,
     },
     files: [
       {
