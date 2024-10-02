@@ -5,19 +5,30 @@ const newDonationSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: false,
     },
     name: {
       type: String,
-      // required: true,
+      required: false,
     },
     gotra: {
       type: String,
-      // required: true,
+      required: false,
     },
     poojaDate: {
       type: Date,
-      // required: true,
+      required: false,
+    },
+    poojaId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Pooja", 
+        required: false, 
+      }
+    ],
+    poojaName: {
+      type: String, 
+      required: false,
     },
     files: [
       {

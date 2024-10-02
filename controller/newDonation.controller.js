@@ -10,6 +10,8 @@ export const createDonation = async (req, res) => {
       poojaDate,
       donationAmount,
       files = [],
+      poojaId,
+      poojaName,
     } = req.body;
 
     // Create a new donation document
@@ -21,6 +23,8 @@ export const createDonation = async (req, res) => {
       donationAmount,
       files,
       paymentStatus: "unpaid", // Payment status set to unpaid by default
+      poojaId,
+      poojaName,
     });
 
     // Save to database
