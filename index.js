@@ -18,13 +18,14 @@ const DB_URI = process.env.MONGO_URI;
 const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(
-  cors({
-    origin: ["http://localhost:5173"],
-    methods: ["GET", "POST", "PUT"],
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: ["http://localhost:5173"],
+//     methods: ["GET", "POST", "PUT"],
+//     credentials: true,
+//   })
+// );
+app.use(cors());
 app.use(express.json());
 
 // Routers

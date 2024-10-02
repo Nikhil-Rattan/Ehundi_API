@@ -14,6 +14,13 @@ export const createCategory = async (req, res) => {
 
   try {
     const savedCategory = await newCategory.save();
+
+    // If it's a subcategory, push it into the parent category's subcategories array
+    if (parentCategory) {
+      await Category.findByIdAndUpdate(parentCategory, {
+        $push: { subcategories: savedCategory._id },
+      });
+    }
     res.status(201).json(savedCategory);
   } catch (error) {
     res.status(500).json({ message: "Error creating category", error });
@@ -51,6 +58,12 @@ export const updateCategory = async (req, res) => {
   const { name, image, description, price, parentCategory, subcategories } = req.body;
 
   try {
+    // Find the category before updating to check if the parent has changed
+    const currentCategory = await Category.findById(id);
+    if (!currentCategory) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
     const updatedCategory = await Category.findByIdAndUpdate(
       id,
       { name, image, description, price, parentCategory, subcategories },
@@ -59,6 +72,22 @@ export const updateCategory = async (req, res) => {
 
     if (!updatedCategory) {
       return res.status(404).json({ message: "Category not found" });
+    }
+
+    // If the parent category has changed, update the subcategories arrays
+    if (currentCategory.parentCategory !== parentCategory) {
+      if (currentCategory.parentCategory) {
+        // Remove from old parent's subcategories array
+        await Category.findByIdAndUpdate(currentCategory.parentCategory, {
+          $pull: { subcategories: id },
+        });
+      }
+      if (parentCategory) {
+        // Add to new parent's subcategories array
+        await Category.findByIdAndUpdate(parentCategory, {
+          $push: { subcategories: id },
+        });
+      }
     }
     res.status(200).json(updatedCategory);
   } catch (error) {

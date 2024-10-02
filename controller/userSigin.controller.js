@@ -37,6 +37,7 @@ export const userSignin = async (req, res) => {
       user: {
         email: user.email,
         role: user.role,
+        fullName: user.fullName,
       },
       token,
     });
