@@ -2,7 +2,7 @@ import Category from "../modals/category.model.js";
 
 // Create a new category
 export const createCategory = async (req, res) => {
-  const { name, image, description, price, parentCategory } = req.body;
+  const { name, image, description, price, parentCategory,isMainCategory  } = req.body;
 
   const newCategory = new Category({
     name,

@@ -86,9 +86,9 @@ export const postDonationResponse = async (req, res) => {
 
     // Parse the URL and extract the transactionId, amount, and status
     const parsedUrl = new URL(returnUrl);
-    const transactionId = parsedUrl.searchParams.get("transactionId");
-    const amount = parsedUrl.searchParams.get("amount");
-    const status = parsedUrl.searchParams.get("status");
+    const transactionId = parsedUrl.searchParams.post("transactionId");
+    const amount = parsedUrl.searchParams.post("amount");
+    const status = parsedUrl.searchParams.post("status");
 
     if (!transactionId || !amount || !status) {
       return res

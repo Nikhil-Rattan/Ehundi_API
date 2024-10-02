@@ -35,6 +35,7 @@ export const createDonation = async (req, res) => {
       success: true,
       message: "Donation created successfully",
       donationId: savedDonation._id, // Send the donation ID as response
+      paymentStatus:savedDonation.status
     });
   } catch (error) {
     res.status(500).json({

@@ -11,9 +11,8 @@ const donationSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    // ref: 'User',  // Assuming you have a User model
     ref: "Signup",
-    required: true,
+    required: false,
   },
   metadata: {
     type: Object, // Store any additional data as a JSON object
