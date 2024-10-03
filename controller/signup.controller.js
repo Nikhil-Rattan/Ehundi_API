@@ -49,7 +49,7 @@ export const userSignup = async (req, res) => {
 // Get all users
 export const getUsers = async (req, res) => {
   try {
-    const users = await Signup.find({});
+    const users = await Signup.find({}).sort({createdAt: -1});
     return res.status(200).json(users);
   } catch (error) {
     return res.status(500).json({ error: "Error fetching users" });
