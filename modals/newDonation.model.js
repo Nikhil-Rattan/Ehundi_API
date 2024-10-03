@@ -7,6 +7,10 @@ const newDonationSchema = new mongoose.Schema(
       ref: "User",
       required: false,
     },
+    star:{
+      type: String,
+      required: false,
+    },
     name: {
       type: String,
       required: false,

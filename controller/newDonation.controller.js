@@ -6,6 +6,7 @@ export const createDonation = async (req, res) => {
     const {
       user,
       name,
+      star,
       gotra,
       poojaDate,
       donationAmount,
@@ -18,6 +19,7 @@ export const createDonation = async (req, res) => {
     const newDonate = new NewDonation({
       user,
       name,
+      star,
       gotra,
       poojaDate,
       donationAmount,
