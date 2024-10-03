@@ -102,7 +102,7 @@ export const postDonationResponse = async (req, res) => {
     //     });
     // }
 
-    if (order_status === "success") {
+    if (order_status === "Success") {
       // Save the response in the database
       // const donationEntry = new CCavenueResponse({
       //   transactionId,
