@@ -103,6 +103,8 @@ export const postDonationResponse = async (req, res) => {
     // }
 
     if (order_status === "Success") {
+      // find donation by merchant_param1 and update payment status
+
       // Save the response in the database
       // const donationEntry = new CCavenueResponse({
       //   transactionId,
@@ -118,7 +120,7 @@ export const postDonationResponse = async (req, res) => {
       // console.log({ transactionId, amount, status, merchant_param1 });
 
       // Send email if the transaction is successful
-      // await sendSuccessEmail(email, transactionId, amount);
+      await sendSuccessEmail(email, transactionId, amount);
 
       // After returning JSON, redirect based on the status
       return res.redirect("/success");
