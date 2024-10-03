@@ -7,7 +7,7 @@ import {
 const ccAvenueRouter = express.Router();
 
 // Route to handle donation entry creation
-// ccAvenueRouter.post("/", postDonationResponse);
+ccAvenueRouter.post("/", postDonationResponse);
 ccAvenueRouter.post("/response", postDonationResponse);
 
 // Success Page Endpoint
