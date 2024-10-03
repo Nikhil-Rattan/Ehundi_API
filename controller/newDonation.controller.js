@@ -91,7 +91,7 @@ export const getDonationById = async (req, res) => {
 export const getAllDonations = async (req, res) => {
   try {
     // Find all donations from the database
-    const donations = await NewDonation.find().populate("poojaId");
+    const donations = await NewDonation.find().populate("poojaId").populate("user");
   
     // If no donations found, send an appropriate response
     if (donations.length === 0) {
