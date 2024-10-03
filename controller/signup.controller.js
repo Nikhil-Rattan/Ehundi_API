@@ -37,9 +37,36 @@ export const userSignup = async (req, res) => {
     });
 
     await newUser.save();
+
+    // Set up Nodemailer transporter
+    const transporter = nodemailer.createTransport({
+      service: "gmail", // You can use other services like SendGrid, etc.
+      auth: {
+        user: "your-email@gmail.com", // Your email address
+        pass: "your-email-password",  // Your email password or app-specific password
+      },
+    });
+
+    // Email options
+    const mailOptions = {
+      from: "your-email@gmail.com", // Sender email
+      to: email, // Recipient email (the new user)
+      subject: "Welcome to Our Platform",
+      text: `Hi ${fullName},\n\nThank you for signing up. We are excited to have you on board!\n\nBest Regards,\nE-Hundi`,
+    };
+
+    // Send the email
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
     return res
       .status(201)
-      .json({ success: "User registered successfully", user: newUser });
+      .json({ success: "User registered successfully and email sent", user: newUser });
   } catch (error) {
     console.error("Error during signup:", error);
     return res.status(500).json({ error: "Internal server error" });

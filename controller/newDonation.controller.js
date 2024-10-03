@@ -87,11 +87,15 @@ export const getDonationById = async (req, res) => {
   }
 };
 
+
 export const getAllDonations = async (req, res) => {
   try {
     // Find all donations from the database
     const donations = await NewDonation.find();
-
+    const data={
+      donation:donations,
+      length:donations.length
+  }
     // If no donations found, send an appropriate response
     if (donations.length === 0) {
       return res.status(404).json({
@@ -104,6 +108,7 @@ export const getAllDonations = async (req, res) => {
     return res.status(200).json({
       success: true,
       donations,
+      data
     });
   } catch (error) {
     // Handle any errors during the process

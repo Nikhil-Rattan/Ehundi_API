@@ -4,7 +4,11 @@ import mongoose from 'mongoose';
 export const getUser = async (req, res) => {
     try {
         const users = await Signup.find({});
-        res.status(200).json(users);
+        const data={
+            user:users,
+            length:users.length
+        }
+        res.status(200).json(data);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

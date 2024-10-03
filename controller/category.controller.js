@@ -31,7 +31,11 @@ export const createCategory = async (req, res) => {
 export const getAllCategories = async (req, res) => {
   try {
     const categories = await Category.find().populate("subcategories").populate("parentCategory");
-    res.status(200).json(categories);
+    const data = {
+      categories: categories,
+      length: categories.length,
+    };
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ message: "Error fetching categories", error });
   }
