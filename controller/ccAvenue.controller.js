@@ -1,34 +1,34 @@
 import CCavenueResponse from "../modals/ccAvenueResponse.model.js";
 import { URL } from "url";
-import nodemailer from "nodemailer";
+// import nodemailer from "nodemailer";
 
 // Function to send email
-const sendSuccessEmail = async (recipientEmail, transactionId, amount) => {
-  try {
-    // Create a transporter (you need to replace with your email service configuration)
-    const transporter = nodemailer.createTransport({
-      service: "gmail", // or any other email service you use
-      auth: {
-        user: "",
-        pass: "",
-      },
-    });
+// const sendSuccessEmail = async (recipientEmail, transactionId, amount) => {
+//   try {
+//     // Create a transporter (you need to replace with your email service configuration)
+//     const transporter = nodemailer.createTransport({
+//       service: "gmail", // or any other email service you use
+//       auth: {
+//         user: "",
+//         pass: "",
+//       },
+//     });
 
-    // Create the email content
-    const mailOptions = {
-      from: "your-email@gmail.com", // Sender address
-      to: recipientEmail, // Recipient's email
-      subject: "Donation Successful", // Email subject
-      text: `Thank you for your donation! Transaction ID: ${transactionId}, Amount: ${amount}`, // Email body
-    };
+//     // Create the email content
+//     const mailOptions = {
+//       from: "your-email@gmail.com", // Sender address
+//       to: recipientEmail, // Recipient's email
+//       subject: "Donation Successful", // Email subject
+//       text: `Thank you for your donation! Transaction ID: ${transactionId}, Amount: ${amount}`, // Email body
+//     };
 
-    // Send the email
-    await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully");
-  } catch (error) {
-    console.error("Error sending email:", error);
-  }
-};
+//     // Send the email
+//     await transporter.sendMail(mailOptions);
+//     console.log("Email sent successfully");
+//   } catch (error) {
+//     console.error("Error sending email:", error);
+//   }
+// };
 
 // Function to parse URL parameters
 const getParamsFromUrl = (url) => {
@@ -134,50 +134,9 @@ return order_status;
 // Handle donation response entry
 export const postDonationResponse = async (req, res) => {
   try {
-    // const { returnUrl, email } = req.body; // Get the returnUrl from the request body
-
-    // if (!returnUrl || !email) {
-    //   return res
-    //     .status(400)
-    //     .json({ error: "Return URL and recipient email are required." });
-    // }
-
-    // Parse the URL and extract the transactionId, amount, and status
-    // const parsedUrl = new URL(returnUrl);
-    // const transactionId = parsedUrl.searchParams.post("transactionId");
-    // const amount = parsedUrl.searchParams.post("amount");
-    // const status = parsedUrl.searchParams.post("status");
-    // const merchant_param1 = parsedUrl.searchParams.get("merchant_param1");
-
-    const { order_status, merchant_param1, billing_email, amount} = req.body;
-
-    // if (!transactionId || !amount || !status || merchant_param1) {
-    //   return res
-    //     .status(400)
-    //     .json({
-    //       error:
-    //         "Transaction ID, Amount, and Status, and merchant_param1 are required.",
-    //     });
-    // }
-
+    const { order_status, merchant_param1, amount} = req.body;
     if (order_status === "Success") {
-      // find donation by merchant_param1 and update payment status
-
-      // Save the response in the database
-      // const donationEntry = new CCavenueResponse({
-      //   transactionId,
-      //   amount,
-      //   order_status,
-      //   merchantParam1: merchant_param1,
-      //   responseData: { transactionId, amount, status, merchant_param1 },
-      // });
-
-      // await donationEntry.save();
-
-      // Log the JSON response
-      // console.log({ transactionId, amount, status, merchant_param1 });
-      // Send email if the transaction is successful
-      await sendSuccessEmail(billing_email, merchant_param1, amount);
+      // await sendSuccessEmail( merchant_param1, amount);
 
       // After returning JSON, redirect based on the status
       return res.redirect("/api/ccAvenue-response/success");
