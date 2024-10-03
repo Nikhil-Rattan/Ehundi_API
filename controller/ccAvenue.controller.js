@@ -46,6 +46,7 @@ const getParamsFromUrl = (url) => {
 // Handle creation of a donation entry (CC Avenue response)
 export const createDonationEntry = async (req, res) => {
   try {
+    return req;
     // const { returnUrl, email } = req.body; // Get the returnUrl from the request body
 
     // if (!returnUrl || !email) {
@@ -148,7 +149,7 @@ export const postDonationResponse = async (req, res) => {
     // const status = parsedUrl.searchParams.post("status");
     // const merchant_param1 = parsedUrl.searchParams.get("merchant_param1");
 
-    const { order_status, merchant_param1} = req.body;
+    const { order_status, merchant_param1, billing_email, amount} = req.body;
 
     // if (!transactionId || !amount || !status || merchant_param1) {
     //   return res
@@ -175,14 +176,13 @@ export const postDonationResponse = async (req, res) => {
 
       // Log the JSON response
       // console.log({ transactionId, amount, status, merchant_param1 });
-
       // Send email if the transaction is successful
-      await sendSuccessEmail(email, transactionId, amount);
+      await sendSuccessEmail(billing_email, merchant_param1, amount);
 
       // After returning JSON, redirect based on the status
-      return res.redirect("/success");
+      return res.redirect("/api/ccAvenue-response/success");
     } else {
-      return res.redirect("/failed");
+      return res.redirect("/api/ccAvenue-response/failed");
     }
   } catch (error) {
     console.error(error);
