@@ -71,7 +71,7 @@ export const createDonationEntry = async (req, res) => {
     //         "Transaction ID, Amount, and Status, and merchant_param1 are required.",
     //     });
     // }
-
+    return order_status;
     if (order_status === "Success") {
       // find donation by merchant_param1 and update payment status
 
@@ -87,15 +87,15 @@ export const createDonationEntry = async (req, res) => {
       // await donationEntry.save();
 
       // Log the JSON response
-      console.log({ order_status, merchant_param1 });
-
+      // console.log({ transactionId, amount, status, merchant_param1 });
+return order_status;
       // Send email if the transaction is successful
       await sendSuccessEmail(email, transactionId, amount);
 
       // After returning JSON, redirect based on the status
-      // return res.redirect("/success");
+      return res.redirect("/success");
     } else {
-      // return res.redirect("/failed");
+      return res.redirect("/failed");
     }
   } catch (error) {
     console.error(error);
