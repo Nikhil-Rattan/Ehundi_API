@@ -7,11 +7,11 @@ import {
 const ccAvenueRouter = express.Router();
 
 // Route to handle donation entry creation
-ccAvenueRouter.post("/", createDonationEntry);
+ccAvenueRouter.post("/", postDonationResponse);
 ccAvenueRouter.post("/response", postDonationResponse);
 
 // Success Page Endpoint
-ccAvenueRouter.post("/success", (req, res) => {
+ccAvenueRouter.get("/success", (req, res) => {
   // res.redirect("Transaction Successful! Thank you for your donation.");
   res.json({
     message: "Transaction Successful!",
@@ -20,7 +20,7 @@ ccAvenueRouter.post("/success", (req, res) => {
 });
 
 // Failed Page Endpoint
-ccAvenueRouter.post("/failed", (req, res) => {
+ccAvenueRouter.get("/failed", (req, res) => {
   // res.redirect("Transaction Failed! Please try again.");
   res.json({
     message: "Transaction Failed!",
@@ -28,8 +28,8 @@ ccAvenueRouter.post("/failed", (req, res) => {
   });
 });
 
-ccAvenueRouter.post("/", (req, res) => {
-  res.send("CC Avenue Response Base Endpoint");
-});
+// ccAvenueRouter.get("/", (req, res) => {
+//   res.send("CC Avenue Response Base Endpoint");
+// });
 
 export default ccAvenueRouter;
