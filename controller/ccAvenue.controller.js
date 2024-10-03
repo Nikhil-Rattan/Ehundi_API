@@ -87,15 +87,15 @@ export const createDonationEntry = async (req, res) => {
       // await donationEntry.save();
 
       // Log the JSON response
-      // console.log({ transactionId, amount, status, merchant_param1 });
+      console.log({ order_status, merchant_param1 });
 
       // Send email if the transaction is successful
       await sendSuccessEmail(email, transactionId, amount);
 
       // After returning JSON, redirect based on the status
-      return res.redirect("/success");
+      // return res.redirect("/success");
     } else {
-      return res.redirect("/failed");
+      // return res.redirect("/failed");
     }
   } catch (error) {
     console.error(error);
