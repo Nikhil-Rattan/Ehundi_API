@@ -1,6 +1,7 @@
 import Signup from "../modals/signup.modal.js";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
+import nodemailer from "nodemailer";
 
 export const userSignup = async (req, res) => {
   const {
@@ -42,20 +43,28 @@ export const userSignup = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail", // You can use other services like SendGrid, etc.
       auth: {
-        user: "your-email@gmail.com", // Your email address
-        pass: "your-email-password",  // Your email password or app-specific password
+        user: "tl.webcodeft@gmail.com", // Your email address
+        pass: "rdnzqbdnhzfcryha",  // Your email password or app-specific password
       },
     });
 
     // Email options
     const mailOptions = {
-      from: "your-email@gmail.com", // Sender email
+      from: "tl.webcodeft@gmail.com", // Sender email
       to: email, // Recipient email (the new user)
       subject: "Welcome to Our Platform",
       text: `Hi ${fullName},\n\nThank you for signing up. We are excited to have you on board!\n\nBest Regards,\nE-Hundi`,
     };
 
-    // Send the email
+    // Email to the admin
+    const adminMailOptions = {
+      from: "tl.webcodeft@gmail.com", // Sender email
+      to: "debra@gmail.com", // Admin email
+      subject: "New User Registration",
+      text: `Hi Admin,\n\nA new user has just signed up on the platform.\n\nDetails:\nName: ${fullName}\nEmail: ${email}\nPhone: ${phoneNumber}\n\nBest Regards,\nE-Hundi`,
+    };
+
+    // Send the email to the user
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error("Error sending email:", error);
@@ -64,6 +73,15 @@ export const userSignup = async (req, res) => {
       }
     });
 
+     // Send the email to the admin
+     transporter.sendMail(adminMailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email to the admin:", error);
+      } else {
+        console.log("Email sent to the admin: " + info.response);
+      }
+    });
+    
     return res
       .status(201)
       .json({ success: "User registered successfully and email sent", user: newUser });
