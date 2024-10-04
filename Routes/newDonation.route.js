@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post("/", createDonation);
 router.get("/", getAllDonations);
-router.get("/:donationId", getDonationById);
+router.get("/:id", getDonationById);
 
 export default router;

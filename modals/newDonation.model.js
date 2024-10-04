@@ -37,7 +37,7 @@ const newDonationSchema = new mongoose.Schema(
     },
     files: [
       {
-        type: String, // This could be a file URL or file path depending on your setup
+        type: String, 
       },
     ],
     donationAmount: {
