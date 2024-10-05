@@ -130,10 +130,11 @@ export const getDonationById = async (req, res) => {
 
 export const getAllDonations = async (req, res) => {
   try {
-    // Find all donations from the database
     const { user } = req.query;
-    // console.log(req.query);
-    
+    const now = new Date();    
+
+    const lastMonth = new Date(now.setMonth(now.getMonth() - 1));
+
     let donations = {};
     if(user){
       donations = await NewDonation.find({user:user}).populate("poojaId").populate("user");
@@ -149,11 +150,48 @@ export const getAllDonations = async (req, res) => {
       });
     }
 
+    // 1. Total number of donations
+    const totalDonations = await NewDonation.countDocuments();
+
+    // 2. Total donations in the last month
+    const totalDonationsLastMonth = await NewDonation.countDocuments({
+      createdAt: { $gte: lastMonth }
+    });
+
+     // 3. Total donated amount
+     const totalDonatedAmount = await NewDonation.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$donationAmount" }
+        }
+      }
+    ]);
+
+    // 4. Total donated amount in the last month
+    const totalDonatedAmountLastMonth = await NewDonation.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: lastMonth }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$donationAmount" }
+        }
+      }
+    ]);
     // Return the list of donations
     return res.status(200).json({
       success: true,
       donations,
-      
+      data: {
+        totalDonations,
+        totalDonationsLastMonth,
+        totalDonatedAmount: totalDonatedAmount[0]?.totalAmount || 0,
+        totalDonatedAmountLastMonth: totalDonatedAmountLastMonth[0]?.totalAmount || 0
+      }
     });
   } catch (error) {
     // Handle any errors during the process

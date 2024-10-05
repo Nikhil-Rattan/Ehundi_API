@@ -11,8 +11,8 @@ const poojaSchema = new mongoose.Schema(
       required: true,
     },
     categoryId: {
-      type: mongoose.Schema.Types.ObjectId, // If you have categories, link them here
-      ref: "Category", // Assuming you have a Category model
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "Category", // from Category model
     },
     price: {
       type: String,

@@ -95,7 +95,9 @@ export const userSignup = async (req, res) => {
 export const getUsers = async (req, res) => {
   try {
     const users = await Signup.find({}).sort({createdAt: -1});
-    return res.status(200).json(users);
+
+    const totalUsers = await Signup.countDocuments();
+    return res.status(200).json({users, data:{totalUsers}});
   } catch (error) {
     return res.status(500).json({ error: "Error fetching users" });
   }
