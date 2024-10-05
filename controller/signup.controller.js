@@ -11,6 +11,7 @@ export const userSignup = async (req, res) => {
     password,
     confirmPassword,
     role = "user",
+    imageUrl
   } = req.body;
 
   if (!fullName || !email || !phoneNumber || !password || !confirmPassword) {
@@ -35,6 +36,7 @@ export const userSignup = async (req, res) => {
       phoneNumber,
       password: hashedPassword,
       role,
+      imageUrl
     });
 
     await newUser.save();
@@ -129,6 +131,7 @@ export const updateUser = async (req, res) => {
     if (phoneNumber) updatedData.phoneNumber = phoneNumber;
     if (password) updatedData.password = await bcrypt.hash(password, 10); // Hashing if password is updated
     if (role) updatedData.role = role;
+    if (imageUrl) updatedData.imageUrl = imageUrl;
 
     const user = await Signup.findByIdAndUpdate(userId, updatedData, {
       new: true,
