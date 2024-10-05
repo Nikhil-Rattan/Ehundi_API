@@ -137,9 +137,9 @@ export const getAllDonations = async (req, res) => {
 
     let donations = {};
     if(user){
-      donations = await NewDonation.find({user:user}).populate("poojaId").populate("user");
+      donations = await NewDonation.find({user:user}).populate("poojaId").populate("user").sort({createdAt: -1});
     }else{
-      donations = await NewDonation.find().populate("poojaId").populate("user");
+      donations = await NewDonation.find().populate("poojaId").populate("user").sort({ createdAt: -1 });
     }
   
     // If no donations found, send an appropriate response
@@ -185,13 +185,13 @@ export const getAllDonations = async (req, res) => {
     // Return the list of donations
     return res.status(200).json({
       success: true,
-      donations,
       data: {
         totalDonations,
         totalDonationsLastMonth,
         totalDonatedAmount: totalDonatedAmount[0]?.totalAmount || 0,
         totalDonatedAmountLastMonth: totalDonatedAmountLastMonth[0]?.totalAmount || 0
-      }
+      },
+      donations,
     });
   } catch (error) {
     // Handle any errors during the process

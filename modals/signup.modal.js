@@ -54,7 +54,7 @@ const SignupSchema = new mongoose.Schema(
     phoneNumber: String,
     password: String,
     role: { type: String, required: true, default: 'user' },
-
+    imageUrl: { type: String, required: false},
   },
   {
     timestamps: true,
