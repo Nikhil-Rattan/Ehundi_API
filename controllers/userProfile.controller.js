@@ -1,4 +1,4 @@
-import Signup from "../modals/signup.modal.js"; 
+import Signup from "../models/signup.model.js"; 
 import mongoose from 'mongoose';
 
 export const getUser = async (req, res) => {

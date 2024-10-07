@@ -1,4 +1,4 @@
-import CCavenueResponse from "../modals/ccAvenueResponse.model.js";
+import CCavenueResponse from "../models/ccAvenueResponse.model.js";
 import { URL } from "url";
 // import nodemailer from "nodemailer";
 

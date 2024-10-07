@@ -5,7 +5,7 @@ import {
   getPoojaById,
   updatePooja,
   deletePooja,
-} from "../controller/pooja.controller.js";
+} from "../controllers/pooja.controller.js";
 
 const router = express.Router();
 

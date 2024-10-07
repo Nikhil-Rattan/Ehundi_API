@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import Signup from "../modals/signup.modal.js";
+import Signup from "../models/signup.model.js";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 

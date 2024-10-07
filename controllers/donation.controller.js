@@ -1,4 +1,4 @@
-import Donation from "../modals/donation.model.js";
+import Donation from "../models/donation.model.js";
 
 export const getDonationsList = async (req, res) => {
     try {

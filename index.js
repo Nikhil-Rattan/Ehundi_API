@@ -12,6 +12,7 @@ import newDonationRouter from "./Routes/newDonation.route.js";
 import ccAvenueRouter from "./Routes/ccAvenue.route.js";
 import poojaRouter from "./Routes/pooja.routes.js";
 import userDonationRouter from "./Routes/userDonation.route.js";
+import dasboardStats from "./Routes/dashboardStats.route.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -42,6 +43,7 @@ app.use("/api/newDonations", newDonationRouter);
 app.use("/api/ccAvenue-response", ccAvenueRouter);
 app.use("/api/pooja", poojaRouter);
 app.use("/api/userDonation", userDonationRouter);
+app.use("/api/dasboardStats", dasboardStats);
 
 mongoose
   .connect(DB_URI)

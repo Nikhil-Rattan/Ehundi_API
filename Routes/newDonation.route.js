@@ -3,7 +3,7 @@ import {
   createDonation,
   getDonationById,
   getAllDonations,
-} from "../controller/newDonation.controller.js";
+} from "../controllers/newDonation.controller.js";
 
 const router = express.Router();
 

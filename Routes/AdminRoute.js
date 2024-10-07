@@ -30,7 +30,7 @@
 // export { router as adminRouter };
 
 import express from "express";
-import User from '../modals/User.js'; 
+import User from '../models/User.js'; 
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();

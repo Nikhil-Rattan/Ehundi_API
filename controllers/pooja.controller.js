@@ -1,4 +1,4 @@
-import Pooja from "../modals/pooja.model.js";
+import Pooja from "../models/pooja.model.js";
 
 // Create a new Pooja
 export const createPooja = async (req, res) => {

@@ -1,4 +1,4 @@
-import NewDonation from "../modals/newDonation.model.js";
+import NewDonation from "../models/newDonation.model.js";
 import mongoose from "mongoose";
 
 export const createDonation = async (req, res) => {

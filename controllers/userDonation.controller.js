@@ -1,5 +1,5 @@
-import UserDonation from "../modals/userDonationHistory.model.js";
-import newDonation from "../modals/newDonation.model.js";
+import UserDonation from "../models/userDonationHistory.model.js";
+import newDonation from "../models/newDonation.model.js";
 
 export const getUserDonations = async (req, res) => {
   try {

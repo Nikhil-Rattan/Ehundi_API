@@ -2,7 +2,7 @@ import express from "express";
 import {
   createDonationEntry,
   postDonationResponse,
-} from "../controller/ccAvenue.controller.js";
+} from "../controllers/ccAvenue.controller.js";
 
 const ccAvenueRouter = express.Router();
 

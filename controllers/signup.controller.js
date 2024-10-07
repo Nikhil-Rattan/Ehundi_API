@@ -1,4 +1,4 @@
-import Signup from "../modals/signup.modal.js";
+import Signup from "../models/signup.model.js";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
