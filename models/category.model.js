@@ -29,11 +29,23 @@ const categorySchema = new mongoose.Schema(
       ref: "Category",
       default: null, // Null for root categories
     },
-    mainCategory: {
+    poojaCategory: {
       type: String,
       required: false,
-      enum: ["Upcoming Pooja", "Pooja Donation"],
-    }
+      enum: ["Upcoming Pooja", "Pooja Booking"],
+    },
+    // poojaCategory: {
+    //   upcomingPooja: {
+    //     type: String,
+    //     default: "", 
+    //     required: false,
+    //   },
+    //   poojaDonation: {
+    //     type: String,
+    //     default: "", 
+    //     required: false,
+    //   },
+    // },
   },
   {
     timestamps: true,

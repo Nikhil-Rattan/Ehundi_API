@@ -2,7 +2,7 @@ import Category from "../models/category.model.js";
 
 // Create a new category
 export const createCategory = async (req, res) => {
-  const { name, image, description, price, parentCategory,isMainCategory  } = req.body;
+  const { name, image, description, price, parentCategory, poojaCategory } = req.body;
 
   const newCategory = new Category({
     name,
@@ -10,6 +10,7 @@ export const createCategory = async (req, res) => {
     description,
     price,
     parentCategory,
+    poojaCategory,
   });
 
   try {
@@ -59,7 +60,7 @@ export const getCategoryById = async (req, res) => {
 // Update a category by ID
 export const updateCategory = async (req, res) => {
   const { id } = req.params;
-  const { name, image, description, price, parentCategory, subcategories } = req.body;
+  const { name, image, description, price, parentCategory, subcategories, poojaCategory  } = req.body;
 
   try {
     // Find the category before updating to check if the parent has changed
@@ -70,7 +71,7 @@ export const updateCategory = async (req, res) => {
 
     const updatedCategory = await Category.findByIdAndUpdate(
       id,
-      { name, image, description, price, parentCategory, subcategories },
+      { name, image, description, price, parentCategory, subcategories, poojaCategory},
       { new: true }
     );
 
