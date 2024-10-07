@@ -32,10 +32,10 @@ export const getAllCategories = async (req, res) => {
   try {
     const categories = await Category.find().populate("subcategories").populate("parentCategory");
     // const rootCategoryCount = await Category.countDocuments({ parentCategory: null });
-    const rootCategories = await Category.find({ parentCategory: null }).select("name");
-    const rootCategoryCount = rootCategories.length;
+    // const rootCategories = await Category.find({ parentCategory: null }).select("name");
+    // const rootCategoryCount = rootCategories.length;
     
-    res.status(200).json({rootCategories, rootCategoryCount, categories});
+    res.status(200).json({categories});
   } catch (error) {
     res.status(500).json({ message: "Error fetching categories", error });
   }
