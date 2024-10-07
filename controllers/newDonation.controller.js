@@ -151,46 +151,46 @@ export const getAllDonations = async (req, res) => {
     }
 
     // 1. Total number of donations
-    const totalDonations = await NewDonation.countDocuments();
+    // const totalDonations = await NewDonation.countDocuments();
 
     // 2. Total donations in the last month
-    const totalDonationsLastMonth = await NewDonation.countDocuments({
-      createdAt: { $gte: lastMonth }
-    });
+    // const totalDonationsLastMonth = await NewDonation.countDocuments({
+    //   createdAt: { $gte: lastMonth }
+    // });
 
      // 3. Total donated amount
-     const totalDonatedAmount = await NewDonation.aggregate([
-      {
-        $group: {
-          _id: null,
-          totalAmount: { $sum: "$donationAmount" }
-        }
-      }
-    ]);
+    //  const totalDonatedAmount = await NewDonation.aggregate([
+    //   {
+    //     $group: {
+    //       _id: null,
+    //       totalAmount: { $sum: "$donationAmount" }
+    //     }
+    //   }
+    // ]);
 
     // 4. Total donated amount in the last month
-    const totalDonatedAmountLastMonth = await NewDonation.aggregate([
-      {
-        $match: {
-          createdAt: { $gte: lastMonth }
-        }
-      },
-      {
-        $group: {
-          _id: null,
-          totalAmount: { $sum: "$donationAmount" }
-        }
-      }
-    ]);
+    // const totalDonatedAmountLastMonth = await NewDonation.aggregate([
+    //   {
+    //     $match: {
+    //       createdAt: { $gte: lastMonth }
+    //     }
+    //   },
+    //   {
+    //     $group: {
+    //       _id: null,
+    //       totalAmount: { $sum: "$donationAmount" }
+    //     }
+    //   }
+    // ]);
     // Return the list of donations
     return res.status(200).json({
       success: true,
-      data: {
-        totalDonations,
-        totalDonationsLastMonth,
-        totalDonatedAmount: totalDonatedAmount[0]?.totalAmount || 0,
-        totalDonatedAmountLastMonth: totalDonatedAmountLastMonth[0]?.totalAmount || 0
-      },
+      // data: {
+      //   totalDonations,
+      //   totalDonationsLastMonth,
+      //   totalDonatedAmount: totalDonatedAmount[0]?.totalAmount || 0,
+      //   totalDonatedAmountLastMonth: totalDonatedAmountLastMonth[0]?.totalAmount || 0
+      // },
       donations,
     });
   } catch (error) {
