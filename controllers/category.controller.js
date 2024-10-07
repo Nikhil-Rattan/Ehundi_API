@@ -30,13 +30,18 @@ export const createCategory = async (req, res) => {
 
 // Get all categories
 export const getAllCategories = async (req, res) => {
+  const { poojaCategory } = req.query;  // Capture poojaCategory from query params
   try {
-    const categories = await Category.find().populate("subcategories").populate("parentCategory");
-    // const rootCategoryCount = await Category.countDocuments({ parentCategory: null });
-    // const rootCategories = await Category.find({ parentCategory: null }).select("name");
-    // const rootCategoryCount = rootCategories.length;
-    
-    res.status(200).json({categories});
+     // Build the filter object dynamically based on the query parameter
+     let filter = {};
+     if (poojaCategory) {
+       filter.poojaCategory = poojaCategory; // Add poojaCategory filter if provided
+     }
+
+    const categories = await Category.find(filter).populate("subcategories").populate("parentCategory");
+    res.status(200).json({message: "Categories fetched successfully",
+      data: categories});
+    // res.status(200).json({categories});
   } catch (error) {
     res.status(500).json({ message: "Error fetching categories", error });
   }
