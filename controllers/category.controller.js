@@ -124,9 +124,17 @@ export const deleteCategory = async (req, res) => {
 export const getRootCategoriesWithSubcategories = async (req, res) => {
   try {
     // const rootCategories = await Category.find({ parentCategory: null }); // Find root categories
-    const rootCategories = await Category.find({
-      parentCategory: null,
-    }).populate("subcategories");
+    let filter = {};
+    const { poojaCategory } = req.query;
+    if (poojaCategory) {
+      filter.poojaCategory = poojaCategory; // Add poojaCategory filter if provided
+      filter.parentCategory= null;
+    }else{
+      filter.parentCategory= null;
+    }
+
+  //  const categories = await Category.find(filter).populate("subcategories").populate("parentCategory");
+    const rootCategories = await Category.find(filter).populate("subcategories");
 
     // Check if any root categories were found
     if (rootCategories.length === 0) {
