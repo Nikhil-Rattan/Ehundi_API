@@ -11,15 +11,23 @@ export const getDashboardData = async (req, res) => {
     const totalUsers = await Signup.countDocuments();
 
     // 2. Total number of donations
-    const totalDonations = await NewDonation.countDocuments();
+    const totalDonations = await NewDonation.countDocuments({
+      paymentStatus: "paid",
+    });
 
     // 3. Total donations in the last month
     const totalDonationsLastMonth = await NewDonation.countDocuments({
+      paymentStatus: "paid",
       createdAt: { $gte: lastMonth }
     });
 
     // 4. Total donated amount
     const totalDonatedAmount = await NewDonation.aggregate([
+      {
+        $match: {
+          paymentStatus: "paid",
+        },
+      },
       {
         $group: {
           _id: null,
@@ -32,6 +40,7 @@ export const getDashboardData = async (req, res) => {
     const totalDonatedAmountLastMonth = await NewDonation.aggregate([
       {
         $match: {
+          paymentStatus: "paid",
           createdAt: { $gte: lastMonth }
         }
       },
@@ -50,8 +59,10 @@ export const getDashboardData = async (req, res) => {
         totalUsers,
         totalDonations,
         totalDonationsLastMonth,
-        totalDonatedAmount: totalDonatedAmount[0]?.totalAmount || 0,
-        totalDonatedAmountLastMonth: totalDonatedAmountLastMonth[0]?.totalAmount || 0,
+        // totalDonatedAmount: totalDonatedAmount[0]?.totalAmount || 0,
+        totalDonatedAmount: totalDonatedAmount.length > 0 ? totalDonatedAmount[0].totalAmount : 0,
+        // totalDonatedAmountLastMonth: totalDonatedAmountLastMonth[0]?.totalAmount || 0,
+        totalDonatedAmountLastMonth: totalDonatedAmountLastMonth.length > 0 ? totalDonatedAmountLastMonth[0].totalAmount : 0
       },
     });
   } catch (error) {

@@ -27,7 +27,7 @@ const newDonationSchema = new mongoose.Schema(
     poojaId: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Pooja", 
+        ref: "Category", 
         required: false, 
       }
     ],

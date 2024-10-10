@@ -91,8 +91,6 @@ export const getAllDonations = async (req, res) => {
   try {
      console.log('Fetching donations...');
     const { user } = req.query;
-    const now = new Date();    
-    const lastMonth = new Date(now.setMonth(now.getMonth() - 1));
 
     let donations = {};
     if(user){
@@ -109,9 +107,21 @@ export const getAllDonations = async (req, res) => {
       });
     }
 
+    // Modify donations to only include 'name' and 'price' inside 'poojaId' rest should discarded
+    const transformedDonations = donations.map((donation) => {
+      const { poojaId } = donation;
+      const transformedPoojaId = poojaId.map((pooja) => ({
+        name: pooja.name,
+        price: pooja.price,
+      }));
+      return {
+        ...donation._doc, // keep the rest of the fields
+        poojaId: transformedPoojaId, // replace poojaId with the transformed data
+      };
+    });
     return res.status(200).json({
       success: true,
-      donations,
+      donations: transformedDonations,
     });
   } catch (error) {
     // Handle any errors during the process
