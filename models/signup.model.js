@@ -76,16 +76,16 @@ const SignupSchema = new mongoose.Schema(
 );
 
 // Middleware to hash the password before saving the document
-SignupSchema.pre('save', async function (next) {
-  // Only hash the password if it has been modified (or is new)
-  if (!this.isModified('password')) return next();
+// SignupSchema.pre('save', async function (next) {
+//   // Only hash the password if it has been modified (or is new)
+//   if (!this.isModified('password')) return next();
 
-  // Generate a salt and hash the password
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+//   // Generate a salt and hash the password
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
 
-  next();
-});
+//   next();
+// });
 
 const Signup = mongoose.model("Signup", SignupSchema);
 export default Signup;
