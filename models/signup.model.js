@@ -46,13 +46,27 @@
 
 
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const SignupSchema = new mongoose.Schema(
   {
-    fullName: String,
-    email: String,
-    phoneNumber: String,
-    password: String,
+    fullName: {
+      type:String,
+      required: [true, "Please enter your first name"],
+    },
+    email: {
+      type: String,
+      required: [true, "Please enter your email"],
+      unique: true,
+    },
+    phoneNumber: {
+      type: String,
+      required: [true, "Please enter your phone number"]
+    },
+    password:{
+      type: String,
+      required: [true, "Please enter a password"],
+    },
     role: { type: String, required: true, default: 'user' },
     imageUrl: { type: String, required: false},
   },
@@ -60,6 +74,18 @@ const SignupSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+// Middleware to hash the password before saving the document
+SignupSchema.pre('save', async function (next) {
+  // Only hash the password if it has been modified (or is new)
+  if (!this.isModified('password')) return next();
+
+  // Generate a salt and hash the password
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+
+  next();
+});
 
 const Signup = mongoose.model("Signup", SignupSchema);
 export default Signup;
