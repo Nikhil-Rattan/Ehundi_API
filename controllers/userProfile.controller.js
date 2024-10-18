@@ -46,12 +46,13 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
+        const updateData =  req.body ; // Create a shallow copy of req.body
 
         // Check if the password is being updated
         if (req.body.password) {
             // Hash the new password
             const salt = await bcrypt.genSalt(10);
-            req.body.password = await bcrypt.hash(req.body.password, salt);
+            updateData.password = await bcrypt.hash(req.body.password, salt);
         }
 
         const user = await Signup.findByIdAndUpdate(id, updateData, { new: true }); // { new: true } returns the updated document
