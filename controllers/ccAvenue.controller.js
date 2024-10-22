@@ -141,7 +141,7 @@ export const postDonationResponse = async (req, res) => {
     );
     return res
       .status(200)
-      .json({ message: "Donation response received.", data: req.body });
+      .json({ message: "Donation response received.", data: req });
     //decrypt data
     if (order_status === "Success") {
       // await sendSuccessEmail( merchant_param1, amount);
