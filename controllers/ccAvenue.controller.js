@@ -1,3 +1,4 @@
+import { response } from "express";
 import CCavenueResponse from "../models/ccAvenueResponse.model.js";
 import { URL } from "url";
 // import nodemailer from "nodemailer";
@@ -62,7 +63,7 @@ export const createDonationEntry = async (req, res) => {
     // const status = parsedUrl.searchParams.post("status");
     // const merchant_param1 = parsedUrl.searchParams.get("merchant_param1");
 
-    const { order_status, merchant_param1} = req.body;
+    const { order_status, merchant_param1 } = req.body;
 
     // if (!transactionId || !amount || !status || merchant_param1) {
     //   return res
@@ -89,7 +90,7 @@ export const createDonationEntry = async (req, res) => {
 
       // Log the JSON response
       // console.log({ transactionId, amount, status, merchant_param1 });
-return order_status;
+      return order_status;
       // Send email if the transaction is successful
       await sendSuccessEmail(email, transactionId, amount);
 
@@ -134,14 +135,22 @@ return order_status;
 // Handle donation response entry
 export const postDonationResponse = async (req, res) => {
   try {
-    const { order_status, merchant_param1, amount} = req.body;
+    // const { order_status, merchant_param1, amount } = req.body;
+    console.log(
+      req.body,
+      "-----------------------========================-------------------------"
+    );
+
+    return res.json({
+      message: "Transaction Successful!",
+      responseRequest: req.body,
+    });
     if (order_status === "Success") {
       // await sendSuccessEmail( merchant_param1, amount);
-
       // After returning JSON, redirect based on the status
-      return res.redirect("/api/ccAvenue-response/success");
+      // return res.redirect("/api/ccAvenue-response/success");
     } else {
-      return res.redirect("/api/ccAvenue-response/failed");
+      // return res.redirect("/api/ccAvenue-response/failed");
     }
   } catch (error) {
     console.error(error);
