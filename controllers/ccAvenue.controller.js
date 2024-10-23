@@ -1,4 +1,5 @@
 import CCavenueResponse from "../models/ccAvenueResponse.model.js";
+import { decrypt } from "./../ccavutil.js";
 import { URL } from "url";
 // import nodemailer from "nodemailer";
 
@@ -132,7 +133,7 @@ export const createDonationEntry = async (req, res) => {
 };
 
 // Handle donation response entry
-export const postDonationResponse = async (request, res) => {
+export const postDonationResponse = async (req, res) => {
   try {
     // const { order_status, merchant_param1, amount} = req.body;
     console.log(req.body, "Received request body from ccAvenue");
@@ -145,7 +146,7 @@ export const postDonationResponse = async (request, res) => {
     }
 
     // Decrypt the ccAvenue response
-    const decryptedData = decryptCCavenueResponse(encResp); // Your custom decryption logic
+    const decryptedData = decrypt(encResp); // Your custom decryption logic
     console.log(decryptedData, "Decrypted ccAvenue response");
 
     const { order_status, merchant_param1, amount } = decryptedData; // Extract necessary fields
