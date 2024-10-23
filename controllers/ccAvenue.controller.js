@@ -137,28 +137,28 @@ export const postDonationResponse = async (req, res) => {
   try {
     // const { order_status, merchant_param1, amount} = req.body;
     console.log(req.body, "Received request body from ccAvenue");
-    const { encResp } = req.body; // ccAvenue should send 'encResp' in the body
+    let workingKey = "";
+    // const { encResp } = req.body; // ccAvenue should send 'encResp' in the body
 
-    if (!encResp) {
-      return res
-        .status(400)
-        .json({ error: "No encrypted response received from ccAvenue." });
-    }
+    // if (!encResp) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: "No encrypted response received from ccAvenue." });
+    // }
 
     // Decrypt the ccAvenue response
-    const decryptedData = decrypt(encResp); // Your custom decryption logic
+    const decryptedData = decrypt(req.body, workingKey); // Your custom decryption logic
     console.log(decryptedData, "Decrypted ccAvenue response");
 
-    const { order_status, merchant_param1, amount } = decryptedData; // Extract necessary fields
+    // const { order_status, merchant_param1, amount } = decryptedData; // Extract necessary fields
 
     // Send a response acknowledging the receipt
     return res.status(200).json({
       message: `Donation response received.  ${req.body}`,
-      data: decryptedData,
+      data: `${decryptedData}`,
     });
 
     //decrypt data
-    // if (order_status === "Success") {
     //   // await sendSuccessEmail( merchant_param1, amount);
 
     //   // After returning JSON, redirect based on the status
@@ -168,8 +168,7 @@ export const postDonationResponse = async (req, res) => {
     // }
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({ error: "An error occurred while processing the response." });
+    return res.status(500).json({ error: error });
   }
 };
+// if (order_status === "Success") {
