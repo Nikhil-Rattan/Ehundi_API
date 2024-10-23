@@ -138,20 +138,21 @@ export const createDonationEntry = async (req, res) => {
 // Handle donation response entry
 export const postDonationResponse = async (request, response) => {
   // ccav = require("../../ccavutil.js");
-  var ccavEncResponse = "",
+  let ccavEncResponse = "",
     ccavResponse = "",
     workingKey = "", //Put in the 32-Bit Key provided by CCAvenue.
-    ccavPOST = "";
+    ccavPOST = "",
+    htmlcode = "";
 
   request.on("data", function (data) {
     ccavEncResponse += data;
     ccavPOST = qs.parse(ccavEncResponse);
-    var encryption = ccavPOST.encResp;
+    let encryption = ccavPOST.encResp;
     ccavResponse = decrypt(encryption, workingKey);
   });
 
   request.on("end", function () {
-    var pData = "";
+    let pData = "";
     pData = "<table border=1 cellspacing=2 cellpadding=2><tr><td>";
     pData = pData + ccavResponse.replace(/=/gi, "</td><td>");
     pData = pData.replace(/&/gi, "</td></tr><tr><td>");
@@ -164,7 +165,9 @@ export const postDonationResponse = async (request, response) => {
     response.write(htmlcode);
     response.end();
   });
-  return;
+  return response
+    .status(200)
+    .json({ message: "Donation response received.", data: htmlcode });
   // try {
   //   // const { order_status, merchant_param1, amount} = req.body;
   //   console.log(req, "Received request body from ccAvenue");
