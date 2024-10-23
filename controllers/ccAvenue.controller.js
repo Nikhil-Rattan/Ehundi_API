@@ -145,6 +145,7 @@ export const postDonationResponse = async (request, response) => {
     htmlcode = "";
 
   request.on("data", function (data) {
+    htmlcode = data;
     // return response
     //   .status(200)
     //   .json({ message: "Donation response received.", data: data });
@@ -153,32 +154,31 @@ export const postDonationResponse = async (request, response) => {
     ccavPOST = qs.parse(ccavEncResponse);
     let encryption = ccavPOST.encResp;
     ccavResponse = decrypt(encryption, workingKey);
+  });
+  return response
+    .status(200)
+    .json({ message: "Donation response received.", data: htmlcode });
 
+  request.on("end", function () {
+    let pData = "";
+    pData = "<table border=1 cellspacing=2 cellpadding=2><tr><td>";
+    pData = pData + ccavResponse.replace(/=/gi, "</td><td>");
+    pData = pData.replace(/&/gi, "</td></tr><tr><td>");
+    pData = pData + "</td></tr></table>";
+    htmlcode =
+      '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Response Handler</title></head><body><center><font size="4" color="blue"><b>Response Page</b></font><br>' +
+      pData +
+      "</center><br></body></html>";
+    response.writeHeader(200, { "Content-Type": "text/html" });
+    response.write(htmlcode);
+    response.end();
     return response
       .status(200)
-      .json({ message: "Donation response received.", data: data });
+      .json({ message: "Donation response received.", data: htmlcode });
   });
-
-  // request.on("end", function () {
-  //   let pData = "";
-  //   pData = "<table border=1 cellspacing=2 cellpadding=2><tr><td>";
-  //   pData = pData + ccavResponse.replace(/=/gi, "</td><td>");
-  //   pData = pData.replace(/&/gi, "</td></tr><tr><td>");
-  //   pData = pData + "</td></tr></table>";
-  //   htmlcode =
-  //     '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Response Handler</title></head><body><center><font size="4" color="blue"><b>Response Page</b></font><br>' +
-  //     pData +
-  //     "</center><br></body></html>";
-  //   response.writeHeader(200, { "Content-Type": "text/html" });
-  //   response.write(htmlcode);
-  //   response.end();
-  //   return response
-  //     .status(200)
-  //     .json({ message: "Donation response received.", data: htmlcode });
-  // });
-  // return response
-  //   .status(200)
-  //   .json({ message: "Donation response received.", data: htmlcode });
+  return response
+    .status(200)
+    .json({ message: "Donation response received.", data: htmlcode });
   // try {
   //   // const { order_status, merchant_param1, amount} = req.body;
   //   console.log(req, "Received request body from ccAvenue");
