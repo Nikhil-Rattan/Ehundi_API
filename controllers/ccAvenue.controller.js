@@ -4,7 +4,7 @@ import fs from "fs";
 import { decrypt } from "./../ccavutil.js";
 import qs from "querystring";
 import { URL } from "url";
-// import nodemailer from "nodemailer";
+import NewDonation from "../models/newDonation.model.js"; // import nodemailer from "nodemailer";
 
 // Function to send email
 // const sendSuccessEmail = async (recipientEmail, transactionId, amount) => {
@@ -137,17 +137,32 @@ export const createDonationEntry = async (req, res) => {
 
 // Handle donation response entry
 export const postDonationResponse = async (request, response) => {
-  let { status, merchant_param1 } = request.query;
+  try {
+    let { status, merchant_param1 } = request.query;
+    let donation = {};
+    console.log(status, merchant_param1);
+    const updateData = { paymentStatus: "paid" };
 
-  console.log(status, merchant_param1);
+    if (status === "Success") {
+      donation = await NewDonation.findByIdAndUpdate(
+        merchant_param1,
+        { $set: updateData },
+        { new: true }
+      );
 
-  return response.status(200).json({
-    message: "Donation response received.",
-    data: {
-      status: status,
-      merchant_param1: merchant_param1,
-    },
-  });
+      console.log(donation);
+
+      if (donation.paymentStatus === "paid") {
+        return response.redirect("/api/ccAvenue-response/success");
+      } else {
+        return response.redirect("/api/ccAvenue-response/failed");
+      }
+    } else {
+      return response.redirect("/api/ccAvenue-response/failed");
+    }
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
 };
 // export const postDonationResponse1 = async (request, response) => {
 //   // ccav = require("../../ccavutil.js");

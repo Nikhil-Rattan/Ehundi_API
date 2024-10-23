@@ -13,19 +13,13 @@ ccAvenueRouter.get("/response", postDonationResponse);
 // Success Page Endpoint
 ccAvenueRouter.get("/success", (req, res) => {
   // res.redirect("Transaction Successful! Thank you for your donation.");
-  res.json({
-    message: "Transaction Successful!",
-    redirectUrl: "https://www.example.com/success",
-  });
+  res.json("Transaction Successful!");
 });
 
 // Failed Page Endpoint
 ccAvenueRouter.get("/failed", (req, res) => {
   // res.redirect("Transaction Failed! Please try again.");
-  res.json({
-    message: "Transaction Failed!",
-    redirectUrl: "https://www.example.com/success",
-  });
+  res.json("Transaction Failed!");
 });
 
 // ccAvenueRouter.get("/", (req, res) => {
