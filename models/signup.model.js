@@ -61,7 +61,7 @@ const SignupSchema = new mongoose.Schema(
     },
     phoneNumber: {
       type: String,
-      required: [true, "Please enter your phone number"]
+      required: [true, "Please enter your phone number"],
     },
     password:{
       type: String,

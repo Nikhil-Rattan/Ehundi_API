@@ -6,10 +6,10 @@ import bcrypt from "bcrypt";
 // const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_SECRET =
   "bea075182f3019f5ebed0c64c6d31acee741d6016fb0b1ee4660762d690a3a661e707492e5407a0ca69df11749abb98d4cd5283fb2f8fed1cbbe1b9d6d0adf29";
-export const userSignin = async (req, res) => {
-  const { email, password } = req.body;
-  console.log("Signin request body:", req.body);
 
+
+  export const userSignin = async (req, res) => {
+  const { email, password } = req.body;
 
   try {
     // Find the user by email
@@ -27,6 +27,7 @@ export const userSignin = async (req, res) => {
     if (!isPasswordMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
+  console.log("Signin request body:", req.body);
 
     // Create a JWT token
     const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, {
@@ -41,7 +42,8 @@ export const userSignin = async (req, res) => {
         email: user.email,
         role: user.role,
         fullName: user.fullName,
-        phoneNumber:user.phoneNumber
+        phoneNumber:user.phoneNumber,
+        password:user.password,
       },
       token,
     });
